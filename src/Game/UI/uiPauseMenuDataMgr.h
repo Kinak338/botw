@@ -174,7 +174,7 @@ public:
 
     PouchItemType getType() const { return mType; }
     bool isEquipped() const { return mEquipped; }
-    u8 get25() const { return _25; }
+    bool isInInventory() const { return mInInventory; }
     const sead::SafeString& getName() const { return mName; }
     ItemUse getItemUse() const { return mItemUse; }
 
@@ -236,7 +236,7 @@ private:
     ItemUse mItemUse = ItemUse::Invalid;
     s32 mValue = 0;
     bool mEquipped = false;
-    u8 _25 = 1;
+    bool mInInventory = true;
     sead::FixedSafeString<64> mName;
     Data mData{};
     sead::FixedObjArray<sead::FixedSafeString<64>, NumIngredientsMax> mIngredients;
@@ -479,12 +479,12 @@ private:
     mutable sead::CriticalSection mCritSection;
     Lists mItemLists;
     sead::SafeArray<PouchItem**, NumPouchCategories> mListHeads;
-    sead::SafeArray<PouchItem*, NumPouch50> mArray1;
-    sead::SafeArray<PouchItemType, NumPouch50> mArray2;
+    sead::SafeArray<PouchItem*, NumPouch50> mArrayTabs;
+    sead::SafeArray<PouchItemType, NumPouch50> mArrayTabsType;
     PouchItem* mLastAddedItem{};
-    s32 _44490 = -1;
-    s32 _44494 = -1;
-    s32 _44498{};
+    u32 mLastAddedItemTab = 0xFFFFFFFF;
+    PouchItemType mLastAddedItemType = PouchItemType::Invalid;
+    s32 numTab = 0;
     sead::SafeArray<GrabbedItemInfo, NumGrabbableItems> mGrabbedItems;
     PouchItem* mItem_444f0{};
     s32 _444f8 = -1;
@@ -499,7 +499,7 @@ private:
     PouchItem* mGoronSoulItem{};
     PouchItem* mZoraSoulItem{};
     PouchItem* mGerudoSoulItem{};
-    bool _44538 = false;
+    bool mCanSeeHealthBar = false;
     PouchItem mNewlyAddedItem;
 
     /// Indicates if a temporary inventory ("pouch for quest") is being used.
